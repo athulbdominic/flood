@@ -1,0 +1,149 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Flood Maps</title>
+  <meta name="description" content="">
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <link href="https://www.mapbox.com/base/latest/base.css" rel="stylesheet">
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/mCustomScrollbar.min.css">
+  <link rel="stylesheet" type="text/css" href="css/kerala.css">
+  <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="js/vendor/md5.min.js"></script>
+</head>
+
+<body>
+  <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+  <!-- Content -->
+  <div id='map'></div>
+  <img id="menu" src="menu.png"></img>
+  <div id='sidebar' class='pin-left col3 pad2 dark fill-navy'>
+
+    <h1>Flooded Streets</h1>
+    <h2><a href='.'>Kerala</a></h2>
+    <p>
+      <strong>
+        <span id="feature-count">...</span>
+      </strong> flooded streets in this region.</p>
+    <p>This is a crowdsourced effort to map inundated roads in Kerala. All the data is <a href="https://github.com/kishorv06/flood-map">open source</a>.</p>
+    <h3>How-To ?</h3>
+    <p><br/>Report a flooded street by zooming into the map and clicking it.<br/><center>OR</center><br/>Click on a marked road to unmark it once it is clear.</p>
+
+
+    <!--<div data-map='legend'>
+
+      <h5>Flood Layers</h5>
+
+      <div class="space-bottom1">
+        <ul>
+          <li>
+            <a data-map-layer='cartodem' href="#" class="truncate strong bloxk small" onclick='mapToggle(this);'>
+          Vulnerable and Inundated areas
+        </a>
+          </li>
+          
+          <li>
+            <a data-map-layer='chennai-relief-camps' href="#" class="truncate strong bloxk small " onclick='mapToggle(this);'>
+          Flood relief camps (Including closed)
+        </a>
+          </li>
+        </ul>
+      </div>
+
+      <h5>Affected Areas <a href="#" class="truncate strong bloxk small" onclick='mapLocate("reset");'>
+  (reset)
+</a></h5>
+
+      <div class="space-bottom1">
+        <ul>
+          <li>
+            <a href="#" class="truncate strong bloxk small" onclick='mapLocate("aminjikarai");'>
+        Aminjikarai
+      </a>
+          </li>
+          <li>
+            <a href="#" class="truncate strong bloxk small" onclick='mapLocate("velachery");'>
+        Velachery
+      </a>
+          </li>
+          <li>
+            <a href="#" class="truncate strong bloxk small" onclick='mapLocate("mudichur");'>
+        Mudichur
+      </a>
+          </li>
+          <li>
+            <a href="#" class="truncate strong bloxk small" onclick='mapLocate("omr");'>
+        Old Mahabalipuram Road
+      </a>
+          </li>
+        </ul>
+      </div>
+
+      <h5>Highlight <a href="#" class="truncate strong bloxk small" onclick='mapHighlightReset();'>
+  (reset)
+</a></h5>
+
+      <div class="space-bottom1">
+        <ul>
+          <li>
+            <a href="#" data-map-layer-highlight='red' data-map-layer='water' class="truncate strong bloxk small" onclick='mapHighlight(this);'>
+          Waterbodies
+        </a>
+          </li>
+          <li>
+            <a href="#" data-map-layer-highlight='red' data-map-layer='road-subways' class="truncate strong bloxk small " onclick='mapHighlight(this);'>
+          Road Subways & Tunnels
+        </a>
+          </li>
+          <li>
+            <a href="#" data-map-layer-highlight='red' data-map-layer='road-bridges' class="truncate strong bloxk small" onclick='mapHighlight(this);'>
+          Road Flyovers & Bridges
+        </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>-->
+    <br/>
+    <h3>Useful Links</h3>
+    <div><a style="color:#00a9ff" href="http://keralarains.org/" target="_blank">Location of people to be rescued</a></div>
+    <div><a style="color:#00a9ff" href="https://www.google.com/maps/d/viewer?mid=19GZVUzrBJvy0ZDvYSMHDsKAuXrt3RX0Y&ll=10.62350541929786%2C76.7151854&z=7" target="_blank">Kerala Flood rescue locations</a></div>
+    <br/>
+    <br/>
+    <div>Powered By <a href="https://www.microid.in">MicroID</a></div>
+  </div>
+
+  <div class="pad2 col8 space-bottom2 dark" style="position: absolute; z-index: 1000; bottom: 0; right: 0">
+    <div id="copy" class="pad1 fill-darken3 round prose">Zoom in with mouse wheel or touchpad, and click on a road to mark it as dangerous or click on a marked road to unmark.</div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="js/vendor/jquery.mCustomScrollbar.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css'/>
+  <script src="js/config.js"></script>
+  <script src="js/mapbox-gl-js-common.js"></script>
+  <script type="text/javascript" src="js/kerala.js"></script>
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124168150-1"></script>
+  <script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-124168150-1');
+  </script>
+
+</body>
+
+</html>
